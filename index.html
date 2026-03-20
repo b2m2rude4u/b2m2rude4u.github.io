@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>GFC · L'Arène du Futsal</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #F5F5F5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 🌿 NOUVELLE PALETTE : VERT PREMIUM */
+        :root {
+            --bg: #0A0A0A;
+            --bg-card: #151515;
+            --accent: #00C853;        /* Vert franc, dynamique (comme un terrain flambant neuf) */
+            --accent-glow: #69F0AE;    /* Vert clair néon, rappel des lumières du terrain */
+            --text: #F5F5F5;
+            --text-dim: #A0A0A0;
+            --cta: #00E676;            /* Vert plus flashy pour les boutons */
+            --cta-hover: #2AF598;       /* Vert turquoise au hover */
+        }
+
+        /* layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* navigation sticky */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #2a2a2a;
+            z-index: 1000;
+            padding: 16px 24px;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            font-weight: 600;
+        }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 16px; transition: 0.2s; }
+        .nav-links a:hover { color: var(--accent-glow); }
+
+        .nav-btn {
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-btn:hover {
+            background: var(--accent);
+            color: #0A0A0A;
+        }
+
+        /* mobile action bar (fixe en bas sur mobile) */
+        .mobile-cta-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #151515;
+            border-top: 1px solid #2a2a2a;
+            padding: 12px 24px;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .mobile-cta-btn {
+            background: var(--cta);
+            color: #0A0A0A;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 18px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.4);
+        }
+
+        /* hero */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            border-bottom: 4px solid var(--accent);
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 40px 24px;
+        }
+        .hero h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(48px, 8vw, 88px);
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, #A5D6A7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+            max-width: 600px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--cta);
+            color: #0A0A0A;
+            font-weight: 800;
+            padding: 18px 42px;
+            border-radius: 60px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 24px rgba(0, 230, 118, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .btn-primary i { font-size: 24px; }
+        .btn-primary:hover { background: var(--accent-glow); transform: scale(1.02); }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: white;
+            font-weight: 700;
+            padding: 18px 36px;
+            border-radius: 60px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-secondary:hover { background: rgba(0, 200, 83, 0.1); border-color: var(--accent-glow); }
+
+        /* quick booking widget */
+        .booking-widget {
+            background: var(--bg-card);
+            border-radius: 60px;
+            padding: 24px 32px;
+            margin: 40px 0 80px;
+            border: 1px solid #333;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px);
+        }
+        .booking-field {
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #252525;
+            padding: 16px 24px;
+            border-radius: 50px;
+        }
+        .booking-field i { color: var(--accent); font-size: 22px; }
+        .booking-field select, .booking-field input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            outline: none;
+        }
+        .booking-field input::placeholder { color: #aaa; }
+        .booking-trigger {
+            background: var(--accent);
+            color: black;
+            font-weight: 800;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .booking-trigger:hover { background: var(--accent-glow); }
+
+        /* sections générales */
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 48px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-sub {
+            color: var(--text-dim);
+            font-size: 20px;
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+        /* cards offres */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        .card {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 32px;
+            border: 1px solid #2C2C2C;
+            transition: 0.2s;
+            backdrop-filter: blur(5px);
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-6px); }
+        .card-icon { font-size: 48px; margin-bottom: 24px; color: var(--accent); }
+        .card h3 { font-size: 28px; margin-bottom: 16px; }
+        .card p { color: var(--text-dim); margin-bottom: 32px; }
+        .card-link {
+            color: var(--accent-glow);
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* preuve sociale / avis */
+        .testimonials {
+            background: linear-gradient(145deg, #0F0F0F, #1A1A1A);
+            border-radius: 60px;
+            padding: 60px 40px;
+            margin: 80px 0;
+        }
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .testi-item {
+            background: #202020;
+            border-radius: 24px;
+            padding: 28px;
+        }
+        .stars { color: #FFD966; font-size: 20px; margin-bottom: 16px; }
+        .testi-item p { font-style: italic; margin-bottom: 20px; }
+        .testi-author { font-weight: 700; color: var(--accent-glow); }
+
+        /* instagram feed simulé */
+        .insta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 40px 0;
+        }
+        .insta-post {
+            aspect-ratio: 1/1;
+            background: #2a2a2a;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--accent);
+            border: 1px solid #333;
+            transition: 0.2s;
+        }
+        .insta-post:hover { border-color: var(--accent-glow); }
+
+        /* footer */
+        .footer {
+            border-top: 1px solid #2a2a2a;
+            padding: 60px 24px 100px;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .mobile-cta-bar { display: flex; }
+            .navbar { padding: 12px 20px; }
+            .hero h1 { font-size: 56px; }
+            .booking-widget { flex-direction: column; align-items: stretch; }
+            .insta-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 16px; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            .section-title { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation desktop -->
+<nav class="navbar">
+    <div class="nav-content">
+        <div class="logo">GFC • L'ARÈNE</div>
+        <div class="nav-links">
+            <a href="#">Accueil</a>
+            <a href="#">Réservation</a>
+            <a href="#">Événements</a>
+            <a href="#">Le Club</a>
+            <a href="#">Stages</a>
+        </div>
+        <button class="nav-btn"><i class="fas fa-user" style="margin-right: 8px;"></i>Se connecter</button>
+    </div>
+</nav>
+
+<!-- Mobile CTA sticky bottom (visible sur mobile) -->
+<div class="mobile-cta-bar">
+    <button class="mobile-cta-btn"><i class="fas fa-calendar-check" style="margin-right: 10px;"></i>Réserver un terrain</button>
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="container hero-content">
+        <h1>Prêts pour le match ?</h1>
+        <p>Réservez le terrain n°1 du futsal en Guadeloupe. Entre potes, en famille ou au boulot, l'arène vous attend.</p>
+        <div class="cta-group">
+            <a href="#" class="btn-primary"><i class="fas fa-futbol"></i> Réserver un terrain</a>
+            <a href="#" class="btn-secondary"><i class="fas fa-glass-cheers"></i> Organiser un event</a>
+        </div>
+
+        <!-- Quick booking widget -->
+        <div class="booking-widget">
+            <div class="booking-field">
+                <i class="fas fa-users"></i>
+                <select>
+                    <option>4 joueurs</option>
+                    <option>5 joueurs</option>
+                    <option>6 joueurs</option>
+                    <option>7+ joueurs</option>
+                </select>
+            </div>
+            <div class="booking-field">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="text" placeholder="Aujourd'hui" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div class="booking-field">
+                <i class="fas fa-clock"></i>
+                <input type="text" placeholder="20h00" onfocus="(this.type='time')" onblur="(this.type='text')">
+            </div>
+            <button class="booking-trigger">Voir créneaux →</button>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <!-- OFFRES CARDS (3 cartes visuelles) -->
+    <h2 class="section-title">Joue comme tu veux</h2>
+    <div class="section-sub">Foot, anniversaire, afterwork… on a la formule qu'il te faut.</div>
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-birthday-cake"></i></div>
+            <h3>Anniversaire GFC</h3>
+            <p>Offrez à vos enfants un anniversaire inoubliable sur le terrain. Pack goûter, ballons et arbitre inclus.</p>
+            <a href="#" class="card-link">Je réserve un anniv <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Inter-Entreprises</h3>
+            <p>Soudez votre équipe autour d'un tournoi privé. On s'occupe de tout : terrain, snack, et trophée.</p>
+            <a href="#" class="card-link">Organiser un tournoi <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-pizza-slice"></i></div>
+            <h3>La Pizzeria du Club</h3>
+            <p>Après l'effort, le réconfort. Pizzas artisanales et bières fraîches dans notre espace détente.</p>
+            <a href="#" class="card-link">Voir la carte <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- PREUVE SOCIALE / AVIS -->
+    <div class="testimonials">
+        <h2 class="section-title" style="-webkit-text-fill-color: white; background: none; color: white;">Ils ont marqué chez nous</h2>
+        <div class="testi-grid">
+            <div class="testi-item">
+                <div class="stars">★★★★★</div>
+                <p>“Terrain impeccable, ambiance de ouf ! La pizzeria après le match c'est le vrai plus. On revient chaque semaine.”</p>
+                <div class="testi-author">— Kévin, Baie-Mahault</div>
+            </div>
+            <div class="testi-item">
+                <div class="stars">★★★★★</div>
+                <p>“J'ai organisé l'anniversaire de mon fils, tout était parfait. Les gamins se sont régalés, merci au GFC !”</p>
+                <div class="testi-author">— Stéphanie, Les Abymes</div>
+            </div>
+            <div class="testi-item">
+                <div class="stars">★★★★☆</div>
+                <p>“Tournoi inter-entreprises ultra pro. On reviendra pour prendre notre revanche !”</p>
+                <div class="testi-author">— Karim, Jarry</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSTAGRAM / RÉSEAUX (simulation) -->
+    <h2 class="section-title">#GFC GUADELOUPE</h2>
+    <div class="section-sub">Taguez-nous pour apparaître ici 👇</div>
+    <div class="insta-grid">
+        <div class="insta-post"><i class="fab fa-instagram"></i></div>
+        <div class="insta-post"><i class="fas fa-futbol"></i></div>
+        <div class="insta-post"><i class="fas fa-glass-cheers"></i></div>
+        <div class="insta-post"><i class="fas fa-camera"></i></div>
+    </div>
+
+    <!-- BANNIÈRE FINALE CTA -->
+    <div style="text-align: center; margin: 100px 0; background: linear-gradient(145deg, #1a1a1a, #0f0f0f); border-radius: 80px; padding: 70px 20px;">
+        <h2 style="font-size: 56px; font-family: 'Archivo Black'; margin-bottom: 20px;">Prêt à enflammer<br>le terrain ?</h2>
+        <p style="font-size: 22px; color: #ccc; margin-bottom: 40px;">Les meilleurs créneaux partent vite.</p>
+        <a href="#" class="btn-primary" style="font-size: 28px; padding: 24px 60px;"><i class="fas fa-bolt"></i> Trouver mon créneau</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer container">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
+        <div>
+            <div class="logo" style="font-size: 32px; margin-bottom: 20px;">GFC</div>
+            <p>124 rue de la Chapelle, Jarry<br>Guadeloupe</p>
+            <p>☎️ 0590 00 00 00</p>
+        </div>
+        <div>
+            <strong>Horaires</strong><br>
+            Terrains : 9h–0h<br>
+            Pizzeria : 18h–23h30
+        </div>
+        <div>
+            <strong>Suivez-nous</strong><br>
+            <i class="fab fa-instagram" style="font-size: 28px; margin-right: 15px;"></i>
+            <i class="fab fa-facebook" style="font-size: 28px;"></i>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 60px; color: #444;">© 2026 GFC – L'Arène du Futsal</div>
+</footer>
+
+<!-- petit script pour rendre le champ date/time plus sympa sur mobile -->
+<script>
+    // rend les inputs plus intuitifs
+    document.querySelectorAll('.booking-field input[type="text"]').forEach(field => {
+        field.addEventListener('focus', (e) => {
+            if(e.target.placeholder === "Aujourd'hui") e.target.type = 'date';
+            if(e.target.placeholder === "20h00") e.target.type = 'time';
+        });
+        field.addEventListener('blur', (e) => {
+            if(e.target.type === 'date' && !e.target.value) e.target.type = 'text';
+            if(e.target.type === 'time' && !e.target.value) e.target.type = 'text';
+        });
+    });
+</script>
+
+</body>
+</html>
